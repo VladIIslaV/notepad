@@ -1,0 +1,19 @@
+vsize = 1024
+le = 2*pi
+step = le/(vsize-1)
+t = 0:step:le
+y = sin(t) + cos(4*t)
+figure(1), plot(t, y), grid
+Y = fft(y, vsize);
+Pyy = Y.*conj(Y)/vsize;
+f = 1000 * (0:(vsize/2-1))/vsize;
+figure(3), plot(f, Pyy(1:(vsize/2))), grid
+fY = filter(filBandpass1, Pyy(1:(vsize/2)))
+figure(4), plot(f, fY), grid
+fy = ifft(fY, vsize)
+figure(5), plot(t, fy), grid
+
+y = y + sin(450*t)
+figure(8), plot(t, y), grid
+fy = filter(filLowpass, y)
+figure(9), plot(t, fy), grid
